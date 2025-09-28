@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penilaian Kebersihan Kelas - MAN 1 Bengkulu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 100%;
+            min-height: 100vh;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4682b4, #5a9fd4);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .header h2 {
+            font-size: 0.9rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-field label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .input-field input {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: #4682b4;
+            box-shadow: 0 0 0 3px rgba(70, 130, 180, 0.1);
+        }
+
+        /* Camera Detection Section */
+        .camera-section {
+            background: linear-gradient(135deg, #6f42c1, #8e44ad);
+            color: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .camera-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .camera-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .camera-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .camera-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .video-container {
+            position: relative;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #cameraVideo {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .camera-placeholder {
+            text-align: center;
+            color: #6c757d;
+            padding: 40px;
+        }
+
+        .camera-placeholder .icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .camera-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .btn-camera {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .btn-camera:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-camera:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #212529;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        /* Analysis Results */
+        .analysis-results {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .analysis-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .analysis-score {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .score-details {
+            flex: 1;
+        }
+
+        .score-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .score-description {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .feature-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #4682b4;
+        }
+
+        .feature-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4682b4;
+        }
+
+        .feature-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .analysis-recommendation {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-text {
+            color: #424242;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            position: sticky;
+            top: 85px;
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .categories {
+            padding: 20px;
+        }
+
+        .category {
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .category:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #4682b4, #5a9fd4);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 1rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .category-header::after {
+            content: '▼';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+        }
+
+        .category.collapsed .category-header::after {
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        .category-content {
+            padding: 0;
+            max-height: 1000px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .category.collapsed .category-content {
+            max-height: 0;
+            padding: 0;
+        }
+
+        .criteria-item {
+            padding: 15px;
+            border-bottom: 1px solid #f8f9fa;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background-color 0.2s ease;
+        }
+
+        .criteria-item:last-child {
+            border-bottom: none;
+        }
+
+        .criteria-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .criteria-item.checked {
+            background-color: #d4edda;
+        }
+
+        .custom-checkbox {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+        }
+
+        .custom-checkbox input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .checkbox-visual {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #4682b4;
+            border-radius: 6px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox input:checked + .checkbox-visual {
+            background: #4682b4;
+            border-color: #4682b4;
+        }
+
+        .custom-checkbox input:checked + .checkbox-visual::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .criteria-text {
+            flex: 1;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .criteria-points {
+            background: #4682b4;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .button-group {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #f8f9fa;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 50px auto;
+            padding: 0;
+            border-radius: 12px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #4682b4, #5a9fd4);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .report-text {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            border: 1px solid #dee2e6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1001;
+            display: none;
+            animation: toastSlideUp 0.3s ease;
+        }
+
+        @keyframes toastSlideUp {
+            from {
+                transform: translateX(-50%) translateY(100%);
+            }
+            to {
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .loading-spinner {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4682b4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+            
+            .input-row {
+                flex-direction: row;
+            }
+            
+            .button-group {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .btn {
+                flex: 1;
+                max-width: 200px;
+            }
+
+            .camera-controls {
+                justify-content: center;
+            }
+
+            .btn-camera {
+                min-width: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PENILAIAN KEBERSIHAN KELAS</h1>
+            <h2>MAN 1 KOTA BENGKULU</h2>
+        </div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <div class="input-row">
+                    <div class="input-field">
+                        <label for="kelas">Kelas</label>
+                        <input type="text" id="kelas" placeholder="Contoh: X IPA 1">
+                    </div>
+                    <div class="input-field">
+                        <label for="tanggal">Tanggal</label>
+                        <input type="date" id="tanggal">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Camera Detection Section -->
+        <div class="camera-section">
+            <div class="camera-header">
+                <h3>
+                    📷 DETEKSI KERAPIHAN OTOMATIS
+                </h3>
+                <p>Gunakan kamera untuk mendeteksi tingkat kerapihan ruangan secara otomatis</p>
+            </div>
+
+            <div class="camera-container">
+                <div class="video-container" id="videoContainer">
+                    <video id="cameraVideo" autoplay playsinline></video>
+                    <div class="camera-placeholder" id="cameraPlaceholder">
+                        <div class="icon">📷</div>
+                        <h4>Kamera belum aktif</h4>
+                        <p>Klik "Aktifkan Kamera" untuk memulai deteksi</p>
+                    </div>
+                </div>
+
+                <div class="camera-controls">
+                    <button class="btn-camera btn-primary" id="startCameraBtn" onclick="startCamera()">
+                        🎥 Aktifkan Kamera
+                    </button>
+                    <button class="btn-camera btn-success" id="captureBtn" onclick="captureImage()" disabled>
+                        📸 Ambil Foto
+                    </button>
+                    <button class="btn-camera btn-warning" id="analyzeBtn" onclick="analyzeImage()" disabled>
+                        🔍 Analisis Ruangan
+                    </button>
+                    <button class="btn-camera btn-danger" id="stopCameraBtn" onclick="stopCamera()" disabled>
+                        ⏹️ Hentikan Kamera
+                    </button>
+                </div>
+
+                <div class="loading-spinner" id="loadingSpinner">
+                    <div class="spinner"></div>
+                    <p style="margin-left: 15px;">Menganalisis gambar...</p>
+                </div>
+
+                <div class="analysis-results" id="analysisResults">
+                    <div class="analysis-header">
+                        <h4>🎯 Hasil Analisis Kerapihan Ruangan</h4>
+                    </div>
+                    
+                    <div class="analysis-score">
+                        <div class="score-circle" id="scoreCircle">0%</div>
+                        <div class="score-details">
+                            <div class="score-label" id="scoreLabel">Menunggu Analisis</div>
+                            <div class="score-description" id="scoreDescription">Ambil foto ruangan untuk memulai analisis</div>
+                        </div>
+                    </div>
+
+                    <div class="feature-analysis" id="featureAnalysis">
+                        <!-- Feature analysis items will be populated by JavaScript -->
+                    </div>
+
+                    <div class="analysis-recommendation" id="analysisRecommendation">
+                        <div class="recommendation-title">💡 Rekomendasi</div>
+                        <div class="recommendation-text" id="recommendationText">
+                            Ambil foto ruangan untuk mendapatkan rekomendasi perbaikan.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="score-display" id="scoreDisplay">
+            Total Skor: 0/100 (0%)
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="categories" id="categories">
+            <!-- Categories will be generated by JavaScript -->
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="hitungSkor()">Hitung Skor</button>
+            <button class="btn btn-danger" onclick="resetForm()">Reset</button>
+            <button class="btn btn-success" onclick="generateLaporan()">Generate Laporan</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Laporan Penilaian Kebersihan</h3>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="report-text" id="reportText"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const kriteria = [
+            {
+                nama: "Kebersihan Lantai",
+                items: [
+                    "Lantai sudah disapu dan dipel",
+                    "Tidak ada jejak kaki/sepatu",
+                    "Tidak ada barang berserakan",
+                    "Tidak ada sampah",
+                    "Tidak ada genangan di lantai"
+                ]
+            },
+            {
+                nama: "Kebersihan Meja dan Bangku Siswa",
+                items: [
+                    "Tidak ada sampah di kolong meja",
+                    "Tidak ada sampah di atas meja",
+                    "Tidak ada barang berserakan di meja",
+                    "Saat piket, kursi dinaikkan ke atas meja",
+                    "Meja dan kursi tertata rapi"
+                ]
+            },
+            {
+                nama: "Kebersihan Papan Tulis dan Dinding",
+                items: [
+                    "Tidak ada coretan tidak penting di papan tulis",
+                    "Tidak ada noda/coretan di dinding",
+                    "Tidak ada cat dinding yang terkelupas",
+                    "Saklar bersih tidak ada debu/kotoran",
+                    "Stop kontak bersih tidak ada debu/kotoran"
+                ]
+            },
+            {
+                nama: "Kebersihan Jendela dan Pintu",
+                items: [
+                    "Tidak ada noda/kotoran di jendela",
+                    "Tidak ada noda/kotoran di pintu",
+                    "Tidak ada kerusakan pintu yang disengaja",
+                    "Tidak ada kerusakan jendela yang disengaja",
+                    "Tidak ada stiker/tempelan yang tidak penting"
+                ]
+            },
+            {
+                nama: "Kebersihan dan Kerapian Meja Guru",
+                items: [
+                    "Ada taplak meja",
+                    "Taplak meja dipasang rapi di meja",
+                    "Tersedianya tempat penyimpanan spidol, penghapus, dan ATK lainnya",
+                    "Tidak ada barang berserakan di atas meja",
+                    "Tidak ada barang berserakan di atas kursi"
+                ]
+            },
+            {
+                nama: "Ketersediaan Peralatan Kebersihan",
+                items: [
+                    "Ada sapu",
+                    "Ada alat pel",
+                    "Ada ember",
+                    "Ada serokan",
+                    "Ada kemoceng"
+                ]
+            },
+            {
+                nama: "Kelengkapan Administrasi Kelas",
+                items: [
+                    "Ada foto presiden dan wakil presiden",
+                    "Ada foto pancasila",
+                    "Ada jadwal piket",
+                    "Ada jadwal pelajaran",
+                    "Ada struktur kelas"
+                ]
+            },
+            {
+                nama: "Kebersihan Loteng/Langit-langit",
+                items: [
+                    "Tidak ada sarang laba-laba",
+                    "Tidak ada debu",
+                    "Tidak ada coretan",
+                    "Tidak ada benda/kotoran yang menempel",
+                    "Tidak ada kerusakan yang disengaja"
+                ]
+            },
+            {
+                nama: "Kebersihan Sudut Kelas",
+                items: [
+                    "Sudut kelas dalam keadaan rapi/tertata",
+                    "Jika ada lemari/loker siswa, barang-barang tersusun rapi",
+                    "Jika melepas sepatu, tersusun rapi di sudut kelas",
+                    "Jika ada tugas dari guru yang harus disimpan di dalam kelas, pastikan tersusun rapi",
+                    "Tidak ada bau/aroma tidak sedap disetiap sudut kelas"
+                ]
+            },
+            {
+                nama: "Ketersediaan Keranjang Penyimpanan Handphone",
+                items: [
+                    "Digunakan sesuai fungsi awal",
+                    "Tidak untuk meletakkan alat tulis",
+                    "Tidak untuk meletakkan jurnal kelas",
+                    "Tidak untuk tempat arsip surat ketidakhadiran siswa",
+                    "Tidak untuk meletakkan barang lain ataupun barang pribadi"
+                ]
+            }
+        ];
+
+        let totalSkor = 0;
+        let cameraStream = null;
+        let capturedImageData = null;
+
+        // Camera Detection Class
+        class RoomCleannessDetector {
+            constructor() {
+                this.canvas = document.createElement('canvas');
+                this.ctx = this.canvas.getContext('2d');
+            }
+
+            analyzeImage(imageData) {
+                // Convert image data to grayscale for edge detection
+                const grayData = this.convertToGrayscale(imageData);
+                
+                // Feature extraction
+                const features = {
+                    edgeDensity: this.calculateEdgeDensity(grayData),
+                    colorEntropy: this.calculateColorEntropy(imageData),
+                    objectCount: this.estimateObjectCount(grayData),
+                    spatialDistribution: this.calculateSpatialDistribution(grayData),
+                    textureComplexity: this.calculateTextureComplexity(grayData)
+                };
+
+                // Classification
+                const result = this.classifyRoom(features);
+                
+                return {
+                    classification: result.classification,
+                    score: result.score,
+                    features: features,
+                    recommendations: this.getRecommendations(result.classification)
+                };
+            }
+
+            convertToGrayscale(imageData) {
+                const grayData = new Uint8ClampedArray(imageData.width * imageData.height);
+                for (let i = 0; i < imageData.data.length; i += 4) {
+                    const gray = Math.round(
+                        0.299 * imageData.data[i] +     // R
+                        0.587 * imageData.data[i + 1] +  // G
+                        0.114 * imageData.data[i + 2]   // B
+                    );
+                    grayData[i / 4] = gray;
+                }
+                return { data: grayData, width: imageData.width, height: imageData.height };
+            }
+
+            calculateEdgeDensity(grayData) {
+                let edgeCount = 0;
+                const { data, width, height } = grayData;
+                
+                // Simple Sobel edge detection
+                for (let y = 1; y < height - 1; y++) {
+                    for (let x = 1; x < width - 1; x++) {
+                        const idx = y * width + x;
+                        
+                        const gx = (
+                            data[idx - width - 1] * -1 + data[idx - width + 1] * 1 +
+                            data[idx - 1] * -2 + data[idx + 1] * 2 +
+                            data[idx + width - 1] * -1 + data[idx + width + 1] * 1
+                        );
+                        
+                        const gy = (
+                            data[idx - width - 1] * -1 + data[idx - width] * -2 + data[idx - width + 1] * -1 +
+                            data[idx + width - 1] * 1 + data[idx + width] * 2 + data[idx + width + 1] * 1
+                        );
+                        
+                        const magnitude = Math.sqrt(gx * gx + gy * gy);
+                        if (magnitude > 30) edgeCount++;
+                    }
+                }
+                
+                return edgeCount / (width * height);
+            }
+
+            calculateColorEntropy(imageData) {
+                const colorCounts = {};
+                const totalPixels = imageData.width * imageData.height;
+                
+                // Count colors (simplified to reduce computation)
+                for (let i = 0; i < imageData.data.length; i += 16) { // Sample every 4th pixel
+                    const r = Math.floor(imageData.data[i] / 32) * 32;
+                    const g = Math.floor(imageData.data[i + 1] / 32) * 32;
+                    const b = Math.floor(imageData.data[i + 2] / 32) * 32;
+                    const color = `${r},${g},${b}`;
+                    colorCounts[color] = (colorCounts[color] || 0) + 1;
+                }
+                
+                // Calculate entropy
+                let entropy = 0;
+                const sampledPixels = totalPixels / 4;
+                for (const count of Object.values(colorCounts)) {
+                    const prob = count / sampledPixels;
+                    if (prob > 0) {
+                        entropy -= prob * Math.log2(prob);
+                    }
+                }
+                
+                return entropy;
+            }
+
+            estimateObjectCount(grayData) {
+                // Simple blob detection using variance
+                const { data, width, height } = grayData;
+                let objectCount = 0;
+                const blockSize = 20;
+                
+                for (let y = 0; y < height - blockSize; y += blockSize) {
+                    for (let x = 0; x < width - blockSize; x += blockSize) {
+                        const variance = this.calculateBlockVariance(data, x, y, blockSize, width);
+                        if (variance > 400) { // Threshold for significant variation
+                            objectCount++;
+                        }
+                    }
+                }
+                
+                return objectCount;
+            }
+
+            calculateBlockVariance(data, startX, startY, blockSize, width) {
+                let sum = 0;
+                let sumSquared = 0;
+                let count = 0;
+                
+                for (let y = startY; y < startY + blockSize; y++) {
+                    for (let x = startX; x < startX + blockSize; x++) {
+                        const value = data[y * width + x];
+                        sum += value;
+                        sumSquared += value * value;
+                        count++;
+                    }
+                }
+                
+                const mean = sum / count;
+                const variance = (sumSquared / count) - (mean * mean);
+                return variance;
+            }
+
+            calculateSpatialDistribution(grayData) {
+                // Calculate distribution of high-variance regions
+                const { data, width, height } = grayData;
+                const centers = [];
+                const blockSize = 30;
+                
+                for (let y = 0; y < height - blockSize; y += blockSize) {
+                    for (let x = 0; x < width - blockSize; x += blockSize) {
+                        const variance = this.calculateBlockVariance(data, x, y, blockSize, width);
+                        if (variance > 500) {
+                            centers.push({ x: x + blockSize/2, y: y + blockSize/2 });
+                        }
+                    }
+                }
+                
+                if (centers.length < 2) return 0;
+                
+                // Calculate standard deviation of positions
+                const meanX = centers.reduce((sum, c) => sum + c.x, 0) / centers.length;
+                const meanY = centers.reduce((sum, c) => sum + c.y, 0) / centers.length;
+                
+                const stdX = Math.sqrt(centers.reduce((sum, c) => sum + Math.pow(c.x - meanX, 2), 0) / centers.length);
+                const stdY = Math.sqrt(centers.reduce((sum, c) => sum + Math.pow(c.y - meanY, 2), 0) / centers.length);
+                
+                return (stdX + stdY) / (width + height);
+            }
+
+            calculateTextureComplexity(grayData) {
+                const { data, width, height } = grayData;
+                let complexity = 0;
+                
+                // Calculate local variance as texture measure
+                const windowSize = 5;
+                const halfWindow = Math.floor(windowSize / 2);
+                
+                for (let y = halfWindow; y < height - halfWindow; y += 5) {
+                    for (let x = halfWindow; x < width - halfWindow; x += 5) {
+                        const variance = this.calculateLocalVariance(data, x, y, windowSize, width);
+                        complexity += variance;
+                    }
+                }
+                
+                return complexity / ((width / 5) * (height / 5));
+            }
+
+            calculateLocalVariance(data, centerX, centerY, windowSize, width) {
+                const halfWindow = Math.floor(windowSize / 2);
+                let sum = 0;
+                let sumSquared = 0;
+                let count = 0;
+                
+                for (let dy = -halfWindow; dy <= halfWindow; dy++) {
+                    for (let dx = -halfWindow; dx <= halfWindow; dx++) {
+                        const value = data[(centerY + dy) * width + (centerX + dx)];
+                        sum += value;
+                        sumSquared += value * value;
+                        count++;
+                    }
+                }
+                
+                const mean = sum / count;
+                return (sumSquared / count) - (mean * mean);
+            }
+
+            classifyRoom(features) {
+                // Scoring weights
+                const weights = {
+                    edgeDensity: 0.25,
+                    colorEntropy: 0.20,
+                    objectCount: 0.20,
+                    spatialDistribution: 0.20,
+                    textureComplexity: 0.15
+                };
+                
+                let score = 0;
+                
+                // Edge density scoring (higher = more cluttered)
+                if (features.edgeDensity > 0.15) score += weights.edgeDensity;
+                else if (features.edgeDensity > 0.1) score += weights.edgeDensity * 0.6;
+                else if (features.edgeDensity > 0.05) score += weights.edgeDensity * 0.3;
+                
+                // Color entropy scoring (higher = more chaotic)
+                if (features.colorEntropy > 4.5) score += weights.colorEntropy;
+                else if (features.colorEntropy > 3.5) score += weights.colorEntropy * 0.6;
+                else if (features.colorEntropy > 2.5) score += weights.colorEntropy * 0.3;
+                
+                // Object count scoring
+                if (features.objectCount > 25) score += weights.objectCount;
+                else if (features.objectCount > 15) score += weights.objectCount * 0.6;
+                else if (features.objectCount > 8) score += weights.objectCount * 0.3;
+                
+                // Spatial distribution scoring
+                if (features.spatialDistribution > 0.4) score += weights.spatialDistribution;
+                else if (features.spatialDistribution > 0.25) score += weights.spatialDistribution * 0.6;
+                else if (features.spatialDistribution > 0.15) score += weights.spatialDistribution * 0.3;
+                
+                // Texture complexity scoring
+                if (features.textureComplexity > 1000) score += weights.textureComplexity;
+                else if (features.textureComplexity > 600) score += weights.textureComplexity * 0.6;
+                else if (features.textureComplexity > 300) score += weights.textureComplexity * 0.3;
+                
+                // Classification
+                let classification;
+                if (score > 0.7) classification = "SANGAT BERANTAKAN";
+                else if (score > 0.5) classification = "BERANTAKAN";
+                else if (score > 0.3) classification = "AGAK BERANTAKAN";
+                else if (score > 0.15) classification = "CUKUP RAPI";
+                else classification = "SANGAT RAPI";
+                
+                return { classification, score };
+            }
+
+            getRecommendations(classification) {
+                const recommendations = {
+                    "SANGAT BERANTAKAN": [
+                        "🧹 Lakukan pembersihan menyeluruh segera",
+                        "📦 Rapikan dan organisir semua barang yang berserakan",
+                        "🗑️ Buang sampah dan barang yang tidak diperlukan",
+                        "🧽 Bersihkan permukaan meja dan lantai secara menyeluruh"
+                    ],
+                    "BERANTAKAN": [
+                        "📝 Susun ulang tata letak barang-barang",
+                        "🧹 Lakukan pembersihan rutin harian",
+                        "📦 Sediakan tempat penyimpanan yang memadai",
+                        "✨ Terapkan sistem 5S (Sort, Set, Shine, Standardize, Sustain)"
+                    ],
+                    "AGAK BERANTAKAN": [
+                        "🔄 Lakukan perbaikan kecil pada tata letak",
+                        "🧽 Tingkatkan frekuensi pembersihan",
+                        "📋 Buat checklist kebersihan harian",
+                        "👥 Libatkan semua siswa dalam menjaga kebersihan"
+                    ],
+                    "CUKUP RAPI": [
+                        "✅ Pertahankan kondisi yang sudah baik",
+                        "🔍 Lakukan inspeksi rutin untuk detail kecil",
+                        "📈 Tingkatkan sedikit lagi untuk hasil optimal",
+                        "🎯 Fokus pada area-area yang masih perlu perbaikan"
+                    ],
+                    "SANGAT RAPI": [
+                        "🏆 Pertahankan standar kebersihan yang excellent!",
+                        "👨‍🏫 Jadilah contoh untuk kelas lain",
+                        "📊 Dokumentasikan best practices yang diterapkan",
+                        "🌟 Terus konsisten dengan rutinitas yang ada"
+                    ]
+                };
+                
+                return recommendations[classification] || ["Tidak ada rekomendasi khusus"];
+            }
+        }
+
+        const detector = new RoomCleannessDetector();
+
+        // Camera Functions
+        async function startCamera() {
+            try {
+                const constraints = {
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'environment' // Prefer back camera
+                    }
+                };
+                
+                cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+                const video = document.getElementById('cameraVideo');
+                const placeholder = document.getElementById('cameraPlaceholder');
+                
+                video.srcObject = cameraStream;
+                video.style.display = 'block';
+                placeholder.style.display = 'none';
+                
+                // Update button states
+                document.getElementById('startCameraBtn').disabled = true;
+                document.getElementById('captureBtn').disabled = false;
+                document.getElementById('stopCameraBtn').disabled = false;
+                
+                showToast('Kamera berhasil diaktifkan!');
+                
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                showToast('Gagal mengakses kamera. Pastikan izin kamera sudah diberikan.');
+            }
+        }
+
+        function stopCamera() {
+            if (cameraStream) {
+                const tracks = cameraStream.getTracks();
+                tracks.forEach(track => track.stop());
+                cameraStream = null;
+                
+                const video = document.getElementById('cameraVideo');
+                const placeholder = document.getElementById('cameraPlaceholder');
+                
+                video.style.display = 'none';
+                placeholder.style.display = 'block';
+                
+                // Update button states
+                document.getElementById('startCameraBtn').disabled = false;
+                document.getElementById('captureBtn').disabled = true;
+                document.getElementById('analyzeBtn').disabled = true;
+                document.getElementById('stopCameraBtn').disabled = true;
+                
+                // Hide analysis results
+                document.getElementById('analysisResults').style.display = 'none';
+                capturedImageData = null;
+                
+                showToast('Kamera dihentikan');
+            }
+        }
+
+        function captureImage() {
+            const video = document.getElementById('cameraVideo');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            ctx.drawImage(video, 0, 0);
+            capturedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            // Update button states
+            document.getElementById('analyzeBtn').disabled = false;
+            
+            showToast('Foto berhasil diambil! Klik "Analisis Ruangan" untuk memulai.');
+        }
+
+        async function analyzeImage() {
+            if (!capturedImageData) {
+                showToast('Ambil foto terlebih dahulu!');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loadingSpinner').style.display = 'flex';
+            document.getElementById('analyzeBtn').disabled = true;
+            
+            try {
+                // Simulate processing delay for better UX
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                const result = detector.analyzeImage(capturedImageData);
+                displayAnalysisResults(result);
+                
+                // Auto-fill checkboxes based on analysis
+                autoFillCheckboxes(result);
+                
+                showToast(`Analisis selesai! Status: ${result.classification}`);
+                
+            } catch (error) {
+                console.error('Error analyzing image:', error);
+                showToast('Terjadi kesalahan saat menganalisis gambar');
+            } finally {
+                // Hide loading
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('analyzeBtn').disabled = false;
+            }
+        }
+
+        function displayAnalysisResults(result) {
+            const resultsDiv = document.getElementById('analysisResults');
+            const scoreCircle = document.getElementById('scoreCircle');
+            const scoreLabel = document.getElementById('scoreLabel');
+            const scoreDescription = document.getElementById('scoreDescription');
+            const featureAnalysis = document.getElementById('featureAnalysis');
+            const recommendationText = document.getElementById('recommendationText');
+            
+            resultsDiv.style.display = 'block';
+            
+            // Calculate cleanliness percentage (inverse of messiness score)
+            const cleanlinessPercentage = Math.round((1 - result.score) * 100);
+            
+            // Update score display
+            scoreCircle.textContent = `${cleanlinessPercentage}%`;
+            scoreLabel.textContent = result.classification;
+            
+            // Set colors based on score
+            let circleColor, description;
+            if (cleanlinessPercentage >= 85) {
+                circleColor = 'linear-gradient(135deg, #28a745, #20c997)';
+                description = 'Ruangan dalam kondisi sangat baik dan rapi';
+            } else if (cleanlinessPercentage >= 70) {
+                circleColor = 'linear-gradient(135deg, #28a745, #20c997)';
+                description = 'Ruangan dalam kondisi baik dengan sedikit perbaikan';
+            } else if (cleanlinessPercentage >= 50) {
+                circleColor = 'linear-gradient(135deg, #ffc107, #ffb300)';
+                description = 'Ruangan perlu perbaikan untuk mencapai standar optimal';
+            } else if (cleanlinessPercentage >= 30) {
+                circleColor = 'linear-gradient(135deg, #fd7e14, #e8590c)';
+                description = 'Ruangan memerlukan perhatian serius untuk kebersihan';
+            } else {
+                circleColor = 'linear-gradient(135deg, #dc3545, #c82333)';
+                description = 'Ruangan memerlukan pembersihan dan penataan menyeluruh';
+            }
+            
+            scoreCircle.style.background = circleColor;
+            scoreDescription.textContent = description;
+            
+            // Display feature analysis
+            featureAnalysis.innerHTML = `
+                <div class="feature-item">
+                    <div class="feature-value">${(result.features.edgeDensity * 100).toFixed(1)}%</div>
+                    <div class="feature-label">Kompleksitas Visual</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-value">${result.features.colorEntropy.toFixed(1)}</div>
+                    <div class="feature-label">Variasi Warna</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-value">${result.features.objectCount}</div>
+                    <div class="feature-label">Estimasi Objek</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-value">${(result.features.spatialDistribution * 100).toFixed(1)}%</div>
+                    <div class="feature-label">Distribusi Spasial</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-value">${result.features.textureComplexity.toFixed(0)}</div>
+                    <div class="feature-label">Kompleksitas Tekstur</div>
+                </div>
+            `;
+            
+            // Display recommendations
+            recommendationText.innerHTML = result.recommendations.join('<br>• ');
+        }
+
+        function autoFillCheckboxes(analysisResult) {
+            const cleanlinessPercentage = Math.round((1 - analysisResult.score) * 100);
+            
+            // Get all checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            // Calculate how many should be checked based on analysis
+            const totalCheckboxes = checkboxes.length;
+            const targetCheckedCount = Math.round((cleanlinessPercentage / 100) * totalCheckboxes);
+            
+            // Reset all checkboxes
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+            
+            // Randomly select checkboxes to check based on analysis
+            const indices = Array.from({length: totalCheckboxes}, (_, i) => i);
+            
+            // Shuffle array
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+            
+            // Check the first targetCheckedCount checkboxes
+            for (let i = 0; i < targetCheckedCount; i++) {
+                checkboxes[indices[i]].checked = true;
+            }
+            
+            // Update score
+            updateScore();
+        }
+
+        function initializeApp() {
+            const categoriesContainer = document.getElementById('categories');
+            
+            kriteria.forEach((kategori, index) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+                categoryDiv.innerHTML = `
+                    <div class="category-header" onclick="toggleCategory(${index})">
+                        ${kategori.nama}
+                    </div>
+                    <div class="category-content">
+                        ${kategori.items.map((item, itemIndex) => `
+                            <div class="criteria-item">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="checkbox_${index}_${itemIndex}" onchange="updateScore()">
+                                    <div class="checkbox-visual"></div>
+                                </div>
+                                <div class="criteria-text">${item}</div>
+                                <div class="criteria-points">2 pts</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                categoriesContainer.appendChild(categoryDiv);
+            });
+
+            // Set tanggal hari ini
+            document.getElementById('tanggal').valueAsDate = new Date();
+            updateScore();
+        }
+
+        function toggleCategory(index) {
+            const category = document.querySelectorAll('.category')[index];
+            category.classList.toggle('collapsed');
+        }
+
+        function updateScore() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            totalSkor = 0;
+            
+            checkboxes.forEach(checkbox => {
+                const criteriaItem = checkbox.closest('.criteria-item');
+                if (checkbox.checked) {
+                    totalSkor += 2;
+                    criteriaItem.classList.add('checked');
+                } else {
+                    criteriaItem.classList.remove('checked');
+                }
+            });
+
+            const percentage = (totalSkor / 100) * 100;
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const progressFill = document.getElementById('progressFill');
+            
+            scoreDisplay.innerHTML = `
+                Total Skor: ${totalSkor}/100 (${percentage}%)
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            `;
+            
+            // Update progress bar
+            const newProgressFill = document.getElementById('progressFill');
+            newProgressFill.style.width = `${percentage}%`;
+            
+            // Update color based on score
+            let bgColor;
+            if (totalSkor >= 90) bgColor = 'linear-gradient(135deg, #28a745, #20c997)';
+            else if (totalSkor >= 80) bgColor = 'linear-gradient(135deg, #28a745, #20c997)';
+            else if (totalSkor >= 70) bgColor = 'linear-gradient(135deg, #ffc107, #ffb300)';
+            else if (totalSkor >= 60) bgColor = 'linear-gradient(135deg, #fd7e14, #e8590c)';
+            else bgColor = 'linear-gradient(135deg, #dc3545, #c82333)';
+            
+            scoreDisplay.style.background = bgColor;
+        }
+
+        function hitungSkor() {
+            updateScore();
+            showToast(`Skor berhasil dihitung: ${totalSkor}/100`);
+        }
+
+        function resetForm() {
+            if (confirm('Apakah Anda yakin ingin mereset semua data?')) {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                document.getElementById('kelas').value = '';
+                document.getElementById('tanggal').valueAsDate = new Date();
+                
+                // Reset camera analysis
+                document.getElementById('analysisResults').style.display = 'none';
+                capturedImageData = null;
+                document.getElementById('analyzeBtn').disabled = true;
+                
+                updateScore();
+                showToast('Form berhasil direset');
+            }
+        }
+
+        function generateLaporan() {
+            const kelas = document.getElementById('kelas').value.trim();
+            const tanggal = document.getElementById('tanggal').value;
+            
+            if (!kelas || !tanggal) {
+                alert('Mohon isi data kelas dan tanggal terlebih dahulu!');
+                return;
+            }
+
+            let laporan = `=== LAPORAN PENILAIAN KEBERSIHAN KELAS ===\nMAN 1 KOTA BENGKULU\n\n`;
+            laporan += `Kelas: ${kelas}\n`;
+            laporan += `Tanggal: ${new Date(tanggal).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })}\n`;
+            
+            // Add camera analysis results if available
+            const analysisResults = document.getElementById('analysisResults');
+            if (analysisResults.style.display !== 'none' && capturedImageData) {
+                const scoreLabel = document.getElementById('scoreLabel').textContent;
+                const scoreCircle = document.getElementById('scoreCircle').textContent;
+                laporan += `Analisis Kamera: ${scoreLabel} (${scoreCircle})\n`;
+            }
+            
+            laporan += `======================================\n\n`;
+
+            let nomorKategori = 1;
+
+            kriteria.forEach((kategori, index) => {
+                laporan += `${nomorKategori++}. ${kategori.nama}:\n`;
+                let skorKategori = 0;
+
+                kategori.items.forEach((item, itemIndex) => {
+                    const checkbox = document.getElementById(`checkbox_${index}_${itemIndex}`);
+                    const status = checkbox.checked ? '✓' : '✗';
+                    const poin = checkbox.checked ? 2 : 0;
+                    skorKategori += poin;
+                    laporan += `   ${status} ${item} (${poin} poin)\n`;
+                });
+
+                laporan += `   Subtotal: ${skorKategori}/10 poin\n\n`;
+            });
+
+            laporan += `======================================\n`;
+            laporan += `TOTAL SKOR: ${totalSkor}/100\n`;
+
+            let kategoriKebersihan;
+            if (totalSkor >= 90) kategoriKebersihan = 'SANGAT BERSIH';
+            else if (totalSkor >= 80) kategoriKebersihan = 'BERSIH';
+            else if (totalSkor >= 70) kategoriKebersihan = 'CUKUP BERSIH';
+            else if (totalSkor >= 60) kategoriKebersihan = 'KURANG BERSIH';
+            else kategoriKebersihan = 'TIDAK BERSIH';
+
+            laporan += `KATEGORI: ${kategoriKebersihan}\n`;
+            laporan += `======================================\n\n`;
+            laporan += `Kepala Madrasah\n`;
+            laporan += `Hendri Kuswiran, M.Pd.\n`;
+            laporan += `NIP 197101122006041003`;
+
+            document.getElementById('reportText').textContent = laporan;
+            document.getElementById('reportModal').style.display = 'block';
+            
+            showToast(`Laporan berhasil dibuat! Kategori: ${kategoriKebersihan}`);
+        }
+
+        function closeModal() {
+            document.getElementById('reportModal').style.display = 'none';
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('reportModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+        // Handle page unload to clean up camera
+        window.addEventListener('beforeunload', () => {
+            if (cameraStream) {
+                const tracks = cameraStream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html>
